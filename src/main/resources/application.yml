@@ -1,0 +1,30 @@
+server:
+  port: 9007
+  
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: user-management
+          uri: lb://user-management
+          predicates:
+            - Path=/scaffold_user/**
+          filters:
+            - RewritePath=/scaffold_user/, /
+        - id: communication-scaffold
+          uri: lb://communication-scaffold
+          predicates:
+            - Path=/scaffold_communication/**
+          filters:
+            - RewritePath=/scaffold_communication/, /
